@@ -3,19 +3,91 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Basic Page</title>
+    <title>Demo Index</title>
+    <style>
+        :root { --bg:#f7f8fb; --card:#fff; --accent:#2563eb; --muted:#6b7280; }
+        body{ margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;background:var(--bg);color:#111;}
+        header{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;background:linear-gradient(90deg,#0ea5e9 0%,#6366f1 100%);color:#fff}
+        header h1{font-size:1.1rem;margin:0}
+        main{max-width:880px;margin:2rem auto;padding:1rem}
+        .card{background:var(--card);border-radius:8px;padding:1rem;margin-bottom:1rem;box-shadow:0 6px 18px rgba(16,24,40,0.06)}
+        .controls{display:flex;gap:.5rem;align-items:center}
+        button{background:var(--accent);color:#fff;border:0;padding:.5rem .75rem;border-radius:6px;cursor:pointer}
+        input[type="text"]{padding:.5rem .6rem;border:1px solid #e5e7eb;border-radius:6px;flex:1}
+        ul{padding-left:1.25rem;margin:0}
+        li{margin:.4rem 0;color:var(--muted)}
+        footer{text-align:center;padding:1rem;color:var(--muted);font-size:.9rem}
+        @media (max-width:520px){ header{padding:.75rem} main{margin:1rem}}
+    </style>
 </head>
 <body>
-    <header><h1>Welcome</h1></header>
+    <header>
+        <h1>Project Demo</h1>
+        <div class="controls">
+            <button id="themeToggle" aria-label="Toggle theme">Toggle Theme</button>
+        </div>
+    </header>
+
     <main>
-        <p>This is a basic HTML starter page.</p>
-        <button id="msgBtn">Click me</button>
+        <section class="card">
+            <h2>Quick Todo</h2>
+            <form id="todoForm" aria-label="Add todo" style="display:flex;gap:.5rem;margin-top:.75rem">
+                <input id="todoInput" type="text" placeholder="Add a task…" />
+                <button type="submit">Add</button>
+            </form>
+        </section>
+
+        <section class="card">
+            <h2>Tasks</h2>
+            <ul id="todoList" aria-live="polite"></ul>
+        </section>
     </main>
 
+    <footer>Made for testing — index.html</footer>
+
     <script>
-        document.getElementById('msgBtn').addEventListener('click', () => {
-            alert('Hello from index.html');
+        // Simple todo app + theme toggle
+        const form = document.getElementById('todoForm');
+        const input = document.getElementById('todoInput');
+        const list = document.getElementById('todoList');
+        const themeToggle = document.getElementById('themeToggle');
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            const text = input.value.trim();
+            if (!text) return;
+            const li = document.createElement('li');
+            const btn = document.createElement('button');
+            btn.textContent = 'Done';
+            btn.style.marginLeft = '8px';
+            btn.style.fontSize = '0.85rem';
+            btn.addEventListener('click', () => li.remove());
+            li.textContent = text;
+            li.appendChild(btn);
+            list.appendChild(li);
+            input.value = '';
+            input.focus();
         });
+
+        themeToggle.addEventListener('click', () => {
+            const dark = document.documentElement.style.getPropertyValue('--bg') === '#111827';
+            if (!dark) {
+                document.documentElement.style.setProperty('--bg','#111827');
+                document.documentElement.style.setProperty('--card','#0b1220');
+                document.documentElement.style.setProperty('--accent','#60a5fa');
+                document.documentElement.style.setProperty('--muted','#9ca3af');
+                document.body.style.color = '#fff';
+            } else {
+                document.documentElement.style.setProperty('--bg','#f7f8fb');
+                document.documentElement.style.setProperty('--card','#fff');
+                document.documentElement.style.setProperty('--accent','#2563eb');
+                document.documentElement.style.setProperty('--muted','#6b7280');
+                document.body.style.color = '#111';
+            }
+        });
+
+        // Small accessibility nicety: focus input on load
+        input.focus();
     </script>
 </body>
-</html>
+</html>main</div>
